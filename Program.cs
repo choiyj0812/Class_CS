@@ -36,37 +36,67 @@ namespace Class_CS
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
 
-        static byte[,,] block_L = new byte[4, 4, 4]
+        static byte[,,,] block = new byte[2, 4, 4, 4]
         {
+            // L자 블럭
             {
-                {0, 0, 0, 0},
-                {0, 1, 0, 0},
-                {0, 1, 1, 1},
-                {0, 0, 0, 0}
+                {
+                    {0, 0, 0, 0},
+                    {0, 1, 0, 0},
+                    {0, 1, 1, 1},
+                    {0, 0, 0, 0}
+                },
+                {
+                    {0, 0, 0, 0},
+                    {0, 1, 1, 0},
+                    {0, 1, 0, 0},
+                    {0, 1, 0, 0}
+                },
+                {
+                    {0, 0, 0, 0},
+                    {1, 1, 1, 0},
+                    {0, 0, 1, 0},
+                    {0, 0, 0, 0}
+                },
+                {
+                    {0, 0, 1, 0},
+                    {0, 0, 1, 0},
+                    {0, 1, 1, 0},
+                    {0, 0, 0, 0}
+                }
             },
+            // ㅁ자 블럭
             {
-                {0, 0, 0, 0},
-                {0, 1, 1, 0},
-                {0, 1, 0, 0},
-                {0, 1, 0, 0}
+                {
+                    {0, 0, 0, 0},
+                    {0, 1, 1, 0},
+                    {0, 1, 1, 0},
+                    {0, 0, 0, 0}
+                },
+                {
+                    {0, 0, 0, 0},
+                    {0, 1, 1, 0},
+                    {0, 1, 1, 0},
+                    {0, 0, 0, 0}
+                },
+                {
+                    {0, 0, 0, 0},
+                    {0, 1, 1, 0},
+                    {0, 1, 1, 0},
+                    {0, 0, 0, 0}
+                },
+                {
+                    {0, 0, 0, 0},
+                    {0, 1, 1, 0},
+                    {0, 1, 1, 0},
+                    {0, 0, 0, 0}
+                }
             },
-            {
-                {0, 0, 0, 0},
-                {1, 1, 1, 0},
-                {0, 0, 1, 0},
-                {0, 0, 0, 0}
-            },
-            {
-                {0, 0, 1, 0},
-                {0, 0, 1, 0},
-                {0, 1, 1, 0},
-                {0, 0, 0, 0}
-            }
         };
 
         static int x = 3, y = 3;
         static int count = 0;
-        static int rotate = 0;
+        static int rotate = 0, block_num = 0;
         static void Main(string[] args)
         {
             ConsoleKeyInfo key_value;
@@ -139,6 +169,9 @@ namespace Class_CS
                         {
                             Line_Check(i);
                         }
+
+                        block_num++;
+                        if (block_num == 2) block_num = 0;
                         
                         x = y = 3;
                         rotate = 0;
@@ -196,7 +229,7 @@ namespace Class_CS
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (block_L[rotate, j, i] == 1)
+                    if (block[block_num, rotate, j, i] == 1)
                     {
                         Console.SetCursorPosition(x + i, y + j);
                         Console.Write("*");
@@ -211,7 +244,7 @@ namespace Class_CS
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (block_L[rotate, j, i] == 1)
+                    if (block[block_num, rotate, j, i] == 1)
                     {
                         Console.SetCursorPosition(x + i, y + j);
                         Console.Write("-");
@@ -227,7 +260,7 @@ namespace Class_CS
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (block_L[rotate, j, i] == 1 && background[j + y + offset_y, i + x + offset_x] == 1)
+                    if (block[block_num, rotate, j, i] == 1 && background[j + y + offset_y, i + x + offset_x] == 1)
                     {
                         overlap_count++;
                     }
@@ -248,7 +281,7 @@ namespace Class_CS
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (block_L[tmp_rotate, j, i] == 1 && background[j + y, i + x] == 1)
+                    if (block[block_num, tmp_rotate, j, i] == 1 && background[j + y, i + x] == 1)
                     {
                         overlap_count++;
                     }
@@ -263,7 +296,7 @@ namespace Class_CS
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (block_L[rotate, j, i] == 1)
+                    if (block[block_num, rotate, j, i] == 1)
                     {
                         background[j + y, i + x] = 1;
                     }
