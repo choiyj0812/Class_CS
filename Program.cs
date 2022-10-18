@@ -83,7 +83,7 @@ namespace Class_CS
                     key_value = Console.ReadKey(true);
                     ch = key_value.Key.ToString();
 
-                    if(ch == "A")
+                    if (ch == "A")
                     {
                         if (overlap_check(-1, 0) == 0)
                         {
@@ -92,7 +92,7 @@ namespace Class_CS
                             Make_Block();
                         }
                     }
-                    else if(ch == "S")
+                    else if (ch == "S")
                     {
                         if (overlap_check(0, 1) == 0)
                         {
@@ -112,10 +112,12 @@ namespace Class_CS
                     }
                     else if (ch == "R")
                     {
-                        Delete_Block();
-                        rotate++;
-                        if (rotate > 3) rotate = 0;
-                        Make_Block();
+                        if (overlap_check_rotate() == 0) {
+                            Delete_Block();
+                            rotate++;
+                            if (rotate > 3) rotate = 0;
+                            Make_Block();
+                        }
                     }
                 }
                 ////////////////////////////////////////////////
@@ -139,6 +141,7 @@ namespace Class_CS
                         }
                         
                         x = y = 3;
+                        rotate = 0;
                     }
                 }
                 ////////////////////////////////////////////////
@@ -225,6 +228,27 @@ namespace Class_CS
                 for (int i = 0; i < 4; i++)
                 {
                     if (block_L[rotate, j, i] == 1 && background[j + y + offset_y, i + x + offset_x] == 1)
+                    {
+                        overlap_count++;
+                    }
+                }
+            }
+            return overlap_count;
+        }
+
+        static int overlap_check_rotate()
+        {
+            int overlap_count = 0;
+            int tmp_rotate = rotate;
+
+            tmp_rotate++;
+            if (tmp_rotate == 4) tmp_rotate = 0;
+
+            for (int j = 0; j < 4; j++)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (block_L[tmp_rotate, j, i] == 1 && background[j + y, i + x] == 1)
                     {
                         overlap_count++;
                     }
